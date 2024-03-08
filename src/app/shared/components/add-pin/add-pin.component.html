@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-12 my-5 p-2 rounded bg-white">
+            <h5 class="py-3">Add Pin</h5>
+            <form [formGroup]="form" (submit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label">Title <span>*</span> </label>
+                    <input type="text" class="form-control" formControlName="title">
+                    <ng-container
+                        *ngIf="form?.get('title')?.invalid && (form?.get('title')?.dirty || form?.get('title')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('title')?.errors['required']">
+                            Title is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('title')?.errors['pattern']">
+                            Title is invalid.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Image <span>*</span></label>
+                    <div class="drop-zone" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+                        Drop files here
+                    </div>
+                    <ng-container
+                        *ngIf="form?.get('image')?.invalid && (form?.get('image')?.dirty || form?.get('image')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('image')?.errors['required']">
+                            Image is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('image')?.errors['pattern']">
+                            Image is invalid.
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="base64">
+                        <img [src]="base64" alt="" width="50" height="50">
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Collaboratory <span>*</span></label>
+                    <select class="form-control" formControlName="collaboratory" multiple>
+                        <option [value]="null" disabled> Select option </option>
+                        <ng-container *ngFor="let c of customers">
+                            <option [value]="c.title"> {{c.title | titlecase}} | {{c.email}}</option>
+                        </ng-container>
+                    </select>
+                    <ng-container
+                        *ngIf="form?.get('collaboratory')?.invalid && (form?.get('collaboratory')?.dirty || form?.get('collaboratory')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('collaboratory')?.errors['required']">
+                            Collaboratory is required.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Privacy <span>*</span></label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="exampleRadios1">
+                            Private
+                            <input class="form-check-input" type="radio" name="privcy" formControlName="privcy"
+                                value="Private">
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="exampleRadios2">
+                            Public
+                            <input class="form-check-input" type="radio" name="privcy" formControlName="privcy"
+                                value="Public">
+                        </label>
+                    </div>
+                    <ng-container
+                        *ngIf="form?.get('privcy')?.invalid && (form?.get('privcy')?.dirty || form?.get('privcy')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('privcy')?.errors['required']">
+                            Privcy is required.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

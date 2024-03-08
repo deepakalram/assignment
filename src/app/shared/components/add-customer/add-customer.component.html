@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-md-4 col-md-4 col-12 my-5 p-2 rounded bg-white">
+            <h5 class="py-3">Add Customer</h5>
+            <form [formGroup]="form" (submit)="onSubmit()">
+                <div class="mb-3">
+                    <label class="form-label">Title <span>*</span> </label>
+                    <input type="text" class="form-control" formControlName="title">
+                    <ng-container
+                        *ngIf="form?.get('title')?.invalid && (form?.get('title')?.dirty || form?.get('title')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('title')?.errors['required']">
+                            Title is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('title')?.errors['pattern']">
+                            Title is invalid.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email <span>*</span></label>
+                    <input type="text" class="form-control" formControlName="email">
+                    <ng-container
+                        *ngIf="form?.get('email')?.invalid && (form?.get('email')?.dirty || form?.get('email')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('email')?.errors['required']">
+                            Email is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('email')?.errors['pattern']">
+                            Email is invalid.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Region <span>*</span></label>
+                    <select class="form-control" formControlName="region" (change)="onChange('region')">
+                        <option [value]="null" disabled> Select option </option>
+                        <ng-container *ngFor="let region of regions">
+                            <option [value]="region.id"> {{region.id}}</option>
+                        </ng-container>
+                    </select>
+                    <ng-container
+                        *ngIf="form?.get('region')?.invalid && (form?.get('region')?.dirty || form?.get('region')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('region')?.errors['required']">
+                            Region is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('region')?.errors['pattern']">
+                            Region is invalid.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Country <span>*</span></label>
+                    <select class="form-control" formControlName="country">
+                        <option [value]="null" disabled> Select option </option>
+                        <ng-container *ngFor="let country of countries">
+                            <option [value]="country"> {{country}}</option>
+                        </ng-container>
+                    </select>
+                    <ng-container
+                        *ngIf="form?.get('country')?.invalid && (form?.get('country')?.dirty || form?.get('country')?.touched)">
+                        <span class="text-danger" *ngIf="form?.get('country')?.errors['required']">
+                            Country is required.
+                        </span>
+                        <span class="text-danger" *ngIf="form?.get('country')?.errors['pattern']">
+                            Country is invalid.
+                        </span>
+                    </ng-container>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

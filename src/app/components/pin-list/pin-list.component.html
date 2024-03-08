@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-5 text-end">
+            <button type="button" class="btn btn-primary" (click)="onPopupToggole('customer')">Add Customer</button>
+            &nbsp;
+            <button type="button" class="btn btn-primary" (click)="onPopupToggole('pin')">Add Pin</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-2">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Collaboratory</th>
+                        <th scope="col">Privacy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="isDataLoading else loader">
+                        <ng-container *ngIf="pins.length > 0 else noData">
+                            <ng-container *ngFor="let pin of pins;let i=index">
+                                <tr>
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{pin.title | titlecase}}</td>
+                                    <td>
+                                        <span *ngIf="!pin?.image else imageData"> NA </span>
+                                        <ng-template #imageData>
+                                            <img [src]="pin?.image" alt="" width="50" height="50">
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngFor="let cu of pin?.collaboratory || []">
+                                            <span>{{cu | titlecase}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="pin?.collaboratory?.length == 0">
+                                            <span>NA</span>
+                                        </ng-container>
+                                    </td>
+                                    <td>{{pin?.privcy | titlecase}}</td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #noData>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    {{'no data available' | titlecase}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </ng-container>
+                    <ng-template #loader>
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                {{'please wait data loading' | titlecase}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="overlay" [ngClass]="{'show':formName == 'customer' || formName == 'pin'}">
+    <ng-container *ngIf="formName == 'customer'">
+        <app-add-customer [form]="form" [regions]="regions" (onSubmitEvent)="formSubmit($event)"></app-add-customer>
+    </ng-container>
+    <ng-container *ngIf="formName == 'pin'">
+        <app-add-pin [form]="form" [customers]="customers" (onSubmitEvent)="formSubmit($event)"></app-add-pin>
+    </ng-container>
+</div>
